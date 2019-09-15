@@ -1,0 +1,15 @@
+­ Generate the BWA indexed file
+>$ bwa index ­a bwtsw ucsc.hg19.fasta
+
+­ Generate fasta file index from samtool (we can download it from ftp link given above with reference genome)
+>$ samtools faidx ucsc.hg19.fasta
+
+­ Generate Sequence Directory from picard tool (we can download it from ftp link given above with reference genome)
+>$ java­jar picard.jar CreateSequenceDictionary \R=ucsc.hg19.fasta \O=ucsc.hg19.dict
+
+­ Now run the GATK command for the FastaAlternateReferenceMaker
+>$ java ­jar GenomeAnalysisTK.jar ­T FastaAlternateReferenceMaker ­R ucsc.hg19.fasta ­o altref.fa ­V ExAC.r0.3.1.sites.vep.vcf.gz ­L
+chr21
+­ extract table from vcf
+$>$ java ­jar GenomeAnalysisTK.jar ­R chr21.fa ­T VariantsToTable ­V chr21.vcf ­F CHROM ­F POS ­F ID ­F QUAL ­F AC ­F AC_Het ­F 
+AC_Hom ­o chr21test.table ­raw
